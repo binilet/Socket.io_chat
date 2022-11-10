@@ -39,6 +39,8 @@ io.on('connection',(socket)=>{
     });
 
     //logic to perform when user is disconnected from the socket
+    //online update online status
+    
     socket.on('disconnect', (event_msg) => {
         console.log('user disconnected: ', socket.id, event_msg);
         const disconneted_user = _clients.filter(id=> id.socket_id === socket.id);
