@@ -40,6 +40,7 @@ io.on('connection',(socket)=>{
 
     //logic to perform when user is disconnected from the socket
     //online update online status
+    //x
     
     socket.on('disconnect', (event_msg) => {
         console.log('user disconnected: ', socket.id, event_msg);
