@@ -38,6 +38,7 @@ io.on('connection',(socket)=>{
         socket.to(data.room).emit("receive_message",data);
     });
 
+    //logic to perform when user is disconnected from the socket
     socket.on('disconnect', (event_msg) => {
         console.log('user disconnected: ', socket.id, event_msg);
         const disconneted_user = _clients.filter(id=> id.socket_id === socket.id);
