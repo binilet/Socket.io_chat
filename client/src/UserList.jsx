@@ -1,6 +1,8 @@
+import {UserDataContext} from './Contexts/UserDataContext';
+import {useContext} from 'react';
 
-
-function UserList({ userList }) {
+function UserList() {
+    const {userList} = useContext(UserDataContext);
 
     return (
         <div className='left-chat'>

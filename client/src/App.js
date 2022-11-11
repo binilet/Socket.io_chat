@@ -5,6 +5,7 @@ import './App.css';
 import io from 'socket.io-client';
 import Chat from './Chat';
 import UserList from './UserList';
+import {UserDataContext} from './Contexts/UserDataContext';
 
 const socket = io.connect('http://localhost:3001');
 
@@ -15,6 +16,7 @@ function App() {
   const [messageList, setMessageList] = useState([]);
   const [currentMessage, setCurrentMessage] = useState('');
   const [userList, setUserList] = useState([]);
+  
 
   const joinRoom = () => {
     if (username !== "" && room !== "") {
@@ -65,21 +67,9 @@ function App() {
 
   useEffect(() => {
     socket.on('user_offline', (updated_userlist) => {
-      console.log('ohh yeee -->');
-      console.log(updated_userlist);
-
-      /*const updated_users = userList.map(usr => {
-        if(usr.user_name === user_name){  
-          return {...userList,online:{...usr,online:!usr.online}}
-        }
-        return usr;
-      });*/
-
       setUserList(updated_userlist);
     })
   }, [socket]);
-
-
 
 
   return (
@@ -94,8 +84,10 @@ function App() {
         </div>
       ) : (
         <div className='chatContainer'>
-          <UserList userList={userList} />
-          <Chat sendMessage={sendMessage} messageList={messageList} currentMessage={currentMessage} setCurrentMessage={setCurrentMessage} />
+            <UserDataContext.Provider value={{userList,socket, sendMessage, messageList, currentMessage, setCurrentMessage,username,room}}>
+              <UserList />
+              <Chat  />
+            </UserDataContext.Provider>
         </div>
 
       )}
