@@ -35,19 +35,22 @@ io.on('connection',(socket)=>{
     socket.on("send_message",(data)=>{
         console.log(data);
         console.log(`the room is ${data.room}`);
-        socket.to(data.room).emit("receive_message",data);
+        socket.to(data.selectedSocket ?? data.room).emit("receive_message",data);
+    });
+
+    socket.on("user_is_typing",(data)=>{
+        console.log(data);
+        socket.to(data.room).emit('is_user_typing',data)
     });
 
     //logic to perform when user is disconnected from the socket
-    //online update online status
-    //x
     
     socket.on('disconnect', (event_msg) => {
         console.log('user disconnected: ', socket.id, event_msg);
         const disconneted_user = _clients.filter(id=> id.socket_id === socket.id);
         socket.broadcast.emit('user_offline',
         _clients = _clients.map(usr=>{
-                if(usr.user_name == disconneted_user[0].user_name){
+                if(usr.user_name == disconneted_user[0]?.user_name){
                     return {...usr,online:!usr.online}
                 }
                 return usr;
