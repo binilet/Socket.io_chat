@@ -1,20 +1,28 @@
 import {UserDataContext} from './Contexts/UserDataContext';
 import {useContext} from 'react';
 
-function UserList() {
+function UserList({selectedSocket,setSelectedSocket}) {
     const {userList} = useContext(UserDataContext);
 
     return (
         <div className='left-chat'>
           
-                <h4>{`${userList?.length}`} Users availabel</h4>
+                {/* <p>{`${userList?.length}`} Users availabel</p> */}
             
-            <div>
-                <ol>
+            <div className='userListContainer'>
+                <ul className='userList'>
                     {userList.map((user) => {
-                        return <li style={{color: user.online?'blue':'red'}}>{user.user_name}</li>
+                        return (
+                        <li 
+                        className={user.socket_id === selectedSocket ? 'userListItem selectedListItem' : 'userListItem'} 
+                        style={{color: user.online?'#fff':'red'}} 
+                        key={user.socket_id}
+                        onClick={()=>{setSelectedSocket(user.socket_id);console.log(user.socket_id)}}
+                        >
+                            {user.user_name}
+                        </li>)
                     })}
-                </ol>
+                </ul>
             </div>
         </div>
     )

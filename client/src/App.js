@@ -16,6 +16,7 @@ function App() {
   const [messageList, setMessageList] = useState([]);
   const [currentMessage, setCurrentMessage] = useState('');
   const [userList, setUserList] = useState([]);
+  const [selectedSocket,setSelectedSocket] = useState('');
   
 
   const joinRoom = () => {
@@ -37,6 +38,7 @@ function App() {
         author: username,
         message: currentMessage,
         isOffline: false,
+        selectedSocket:selectedSocket,
         time: new Date(Date.now()).getHours() + ":" +
           new Date(Date.now()).getMinutes()
       };
@@ -44,6 +46,7 @@ function App() {
       await socket.emit("send_message", messageData);
       setMessageList((list) => [...list, messageData]);
       setCurrentMessage("");
+     
     }
   }
 
@@ -85,8 +88,8 @@ function App() {
       ) : (
         <div className='chatContainer'>
             <UserDataContext.Provider value={{userList,socket, sendMessage, messageList, currentMessage, setCurrentMessage,username,room}}>
-              <UserList />
-              <Chat  />
+              <UserList selectedSocket={selectedSocket} setSelectedSocket={setSelectedSocket}/>
+              <Chat />
             </UserDataContext.Provider>
         </div>
 

@@ -3,7 +3,7 @@ import {UserDataContext} from './Contexts/UserDataContext';
 
 
 
-function Chat() {
+function Chat({selectedSocket}) {
 
     const {
         socket,
