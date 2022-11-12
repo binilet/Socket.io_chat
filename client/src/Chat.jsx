@@ -5,7 +5,15 @@ import {UserDataContext} from './Contexts/UserDataContext';
 
 function Chat() {
 
-    const {socket,sendMessage,messageList,currentMessage,setCurrentMessage,username,room} = useContext(UserDataContext);
+    const {
+        socket,
+        sendMessage,
+        messageList,
+        currentMessage,
+        setCurrentMessage,
+        username,
+        room} = useContext(UserDataContext);
+
     const[isUserTyping,setIsUserTyping] = useState(false);
     const[typingMsg,setTypingMsg] = useState('');
 
@@ -15,7 +23,6 @@ function Chat() {
         let author={username,room,typing:false}
        
         if(e.target.value === ''){
-            author.typing = false;
             socket.emit('user_is_typing',author)
         }
         else{
@@ -25,13 +32,17 @@ function Chat() {
            
     }
 
+    const sendMessageToServer = ()=>{
+        sendMessage();
+        let author={username,room,typing:false}
+        socket.emit('user_is_typing',author)
+    }
+
 
     useEffect(()=>{
         socket.on('is_user_typing',(data)=>{
-            console.log(data);
             setIsUserTyping(data.typing);
-            setTypingMsg(`${data.author} is Typing ...`);
-            
+            setTypingMsg(`${data.username} is Typing ...`);
         });
       },[socket]);
 
@@ -39,7 +50,7 @@ function Chat() {
     return (
         <div className='chat-window'>
             <div className="chat-header">
-                <p>Live Chat</p>
+                <p>Live Chat | {username}</p>
             </div>
 
             {/* this is where all messages are renderd*/}
@@ -51,7 +62,7 @@ function Chat() {
 
             <div className="chat-footer">
                 <input type="text" placeholder={isUserTyping ? typingMsg : 'Write a message ...'} value={currentMessage} onChange= {setValue} />
-                <button onClick={sendMessage}>&#9658;</button>
+                <button onClick={sendMessageToServer}>&#9658;</button>
             </div>
 
         </div>
