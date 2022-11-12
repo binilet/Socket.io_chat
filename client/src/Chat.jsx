@@ -1,9 +1,8 @@
-import { useEffect,useState,useContext } from "react";
+import { useEffect,useState,useContext,useRef } from "react";
 import {UserDataContext} from './Contexts/UserDataContext';
 
 
-
-function Chat({selectedSocket}) {
+function Chat() {
 
     const {
         socket,
@@ -16,6 +15,7 @@ function Chat({selectedSocket}) {
 
     const[isUserTyping,setIsUserTyping] = useState(false);
     const[typingMsg,setTypingMsg] = useState('');
+    const messageEndref = useRef(null);
 
     const setValue = (e) => {
 
@@ -46,6 +46,13 @@ function Chat({selectedSocket}) {
         });
       },[socket]);
 
+      useEffect(()=>{
+        scrollToBottom();
+      },[messageList])
+
+      const scrollToBottom = () => {
+        messageEndref.current.scrollIntoView({ behavior: 'smooth' });
+      }
 
     return (
         <div className='chat-window'>
@@ -58,6 +65,7 @@ function Chat({selectedSocket}) {
                 {messageList.map((messageContent) => {
                     return <p>{messageContent.message}</p>
                 })}
+                <div ref={messageEndref}/>
             </div>
 
             <div className="chat-footer">
