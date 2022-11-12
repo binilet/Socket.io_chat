@@ -35,6 +35,7 @@ io.on('connection',(socket)=>{
     socket.on("send_message",(data)=>{
         console.log(data);
         console.log(`the room is ${data.room}`);
+        if(data.selectedSocket.length == 0) data.selectedSocket = null;
         socket.to(data.selectedSocket ?? data.room).emit("receive_message",data);
     });
 
