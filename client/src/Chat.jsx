@@ -69,7 +69,16 @@ function Chat() {
             {/* this is where all messages are renderd*/}
             <div className="chat-body">
                 {messageList.map((messageContent) => {
-                    return <p>{messageContent.message}</p>
+                    return(
+                        <div className= {messageContent.author === username ? "message-block right " : "message-block left "}>
+                            <div class="message-header">
+                                {messageContent.author}
+                                {console.log(messageContent)}
+                            </div>
+                            <div>
+                                <p className="message-content">{messageContent.message}</p>
+                            </div>
+                        </div>)
                 })}
                 <div ref={messageEndref} />
             </div>
