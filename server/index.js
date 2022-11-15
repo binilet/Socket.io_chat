@@ -29,7 +29,7 @@ io.on('connection',(socket)=>{
         _clients.push({socket_id : socket.id,user_name:data.username,online:true});
         console.log(_clients);
         socket.to(data.room).emit('user_joined',_clients);
-        socket.emit('user_joined',_clients); 
+        socket.emit('user_joined',_clients.filter(usrs=>usrs.online == true)); 
     });
 
     socket.on("send_message",(data)=>{
