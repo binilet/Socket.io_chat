@@ -158,7 +158,7 @@ body {
 .chat-body{
   overflow: auto;
   font-size: 12px;
-  font-weight: bold;
+  font-weight:400;
 }
 
 .chatContainer{
@@ -188,4 +188,30 @@ body {
 }
 .selectedListItem{
   background-color: aqua;
+}
+
+.message-block{
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  margin: 12px;
+  border-radius: 10px;  
+  word-break: break-all;
+}
+
+.message-content{
+  display: flex;
+  align-self: right;
+
+}
+.left{
+  align-items: flex-end;
+  background-color: #248bf5;
+  color: #fff; 
+}
+.right{
+  align-items: flex-start;
+  background-color: #e5e5ea;
+  color: #000;
+  
 }
