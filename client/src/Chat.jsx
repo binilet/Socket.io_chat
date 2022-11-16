@@ -54,8 +54,6 @@ function Chat() {
         messageEndref.current.scrollIntoView({ behavior: 'smooth' });
     }
     const sendMessageOnEnter = (e) => {
-        console.log('key: ' + e.key);
-        console.log('key code: ' + e.keyCode);
         if (e.key === 'Enter') { sendMessageToServer(); }
     }
 
@@ -69,11 +67,15 @@ function Chat() {
             {/* this is where all messages are renderd*/}
             <div className="chat-body">
                 {messageList.map((messageContent) => {
-                    return(
-                        <div className= {messageContent.author === username ? "message-block right " : "message-block left "}>
+                    return (
+                        <div className={messageContent.author === username ? "message-block right " : "message-block left "}>
                             <div class="message-header">
-                                {messageContent.author}
-                                {console.log(messageContent)}
+                                <p className="sender_name">
+                                    {messageContent.author}
+                                    {" "}<span className="msg-time">
+                                        {messageContent.time}
+                                    </span>
+                                </p>
                             </div>
                             <div>
                                 <p className="message-content">{messageContent.message}</p>

@@ -213,5 +213,14 @@ body {
   align-items: flex-start;
   background-color: #e5e5ea;
   color: #000;
-  
+}
+
+.msg-time{
+  font-size: 8px;
+  font-weight: bold;
+}
+
+.sender_name{
+  font-size: 13px;
+  font-weight: 600;
 }
