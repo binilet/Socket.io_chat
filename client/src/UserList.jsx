@@ -1,7 +1,7 @@
 import {UserDataContext} from './Contexts/UserDataContext';
 import {useContext} from 'react';
 
-function UserList({selectedSocket,setSelectedSocket}) {
+function UserList({selectedSocket,onSelectedSocketChanged,setSelectedUserName}) {
     const {userList} = useContext(UserDataContext);
 
     return (
@@ -17,7 +17,7 @@ function UserList({selectedSocket,setSelectedSocket}) {
                         className={user.socket_id === selectedSocket ? 'userListItem selectedListItem' : 'userListItem'} 
                         style={{color: user.online?'#fff':'red'}} 
                         key={user.socket_id}
-                        onClick={()=>{setSelectedSocket(user.socket_id);console.log(user.socket_id)}}
+                        onClick={()=>{onSelectedSocketChanged(user.socket_id);setSelectedUserName(user.user_name)}}
                         >
                             {user.user_name}
                         </li>)

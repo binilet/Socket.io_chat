@@ -7,7 +7,7 @@ function Chat() {
     const {
         socket,
         sendMessage,
-        messageList,
+        selectedMessageList,
         currentMessage,
         setCurrentMessage,
         username,
@@ -48,7 +48,7 @@ function Chat() {
 
     useEffect(() => {
         scrollToBottom();
-    }, [messageList])
+    }, [selectedMessageList])
 
     const scrollToBottom = () => {
         messageEndref.current.scrollIntoView({ behavior: 'smooth' });
@@ -59,14 +59,17 @@ function Chat() {
 
 
     return (
+        
         <div className='chat-window'>
+            {console.log('fuck you')}
+            {console.log(selectedMessageList)}
             <div className="chat-header">
                 <p>Live Chat | {username}</p>
             </div>
 
             {/* this is where all messages are renderd*/}
             <div className="chat-body">
-                {messageList.map((messageContent) => {
+                {selectedMessageList?.map((messageContent) => {
                     return (
                         <div className={messageContent.author === username ? "message-block right " : "message-block left "}>
                             <div class="message-header">

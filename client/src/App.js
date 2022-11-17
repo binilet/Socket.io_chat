@@ -17,6 +17,27 @@ function App() {
   const [currentMessage, setCurrentMessage] = useState('');
   const [userList, setUserList] = useState([]);
   const [selectedSocket,setSelectedSocket] = useState('');
+  const [selectedUserName,setSelectedUserName] = useState('');
+  const [selectedMessageList,setSelectedMessageList] = useState([]);
+
+  const displayMsgForSelectedUser = () => {
+    var selected_list_of_msgs = messageList?.filter
+      (x => ((x.author === username && x.selected_user_name === selectedUserName)
+        ||
+        (x.author === selectedUserName && x.selected_user_name === username)));
+        console.log(messageList);
+        console.log('user_name is: ' + username);
+        console.log('selected user name is: ' + selectedUserName);
+    setSelectedMessageList(selected_list_of_msgs);
+    console.log(selectedMessageList);
+  }
+
+  const onSelectedSocketChanged = (selectedSocket) => {
+    setSelectedSocket(selectedSocket);
+    displayMsgForSelectedUser();
+    console.log('is this working?');
+    console.log(selectedMessageList);
+  }
   
 
   const joinRoom = () => {
@@ -35,10 +56,11 @@ function App() {
 
       const messageData = {
         room: room,
-        author: username,
+        author: username,//from
         message: currentMessage,
         isOffline: false,
-        selectedSocket:selectedSocket,
+        selectedSocket:selectedSocket,//to
+        selected_user_name:selectedUserName,//redundant; as it is possible to use either the socket or the name to find the other
         time: new Date(Date.now()).getHours() + ":" +
           new Date(Date.now()).getMinutes()
       };
@@ -87,10 +109,13 @@ function App() {
         </div>
       ) : (
         <div className='chatContainer'>
-            <UserDataContext.Provider value={{userList,socket, sendMessage, messageList, currentMessage, setCurrentMessage,username,room}}>
-              <UserList selectedSocket={selectedSocket} setSelectedSocket={setSelectedSocket}/>
+            <UserDataContext.Provider value={{userList,socket, sendMessage, selectedMessageList/*messageList*/, currentMessage, setCurrentMessage,username,room}}>
+              <UserList selectedSocket={selectedSocket} onSelectedSocketChanged={onSelectedSocketChanged} setSelectedUserName={setSelectedUserName}/>
               <Chat />
             </UserDataContext.Provider>
+            {/* {console.log('reeeeeeendering')}
+            {console.log(selectedMessageList)}
+            {console.log('reeeeeeexxxxndering')} */}
         </div>
 
       )}
